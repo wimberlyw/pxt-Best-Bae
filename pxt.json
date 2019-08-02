@@ -9,12 +9,13 @@
     },
     "files": [
         "README.md",
-        "main.ts"
+        "main.ts",
+        "blocks.ts"
     ],
     "testFiles": [
         "test.ts"
     ],
     "public": false,
     "preferredEditor": "tsprj",
-    "installedVersion": "workspace:db984545-6bc6-4ae4-aee3-4d61acaf9ed5"
+    "installedVersion": "workspace:b6f1707d-afae-49cd-eeeb-a94d9d43173d"
 }
