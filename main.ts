@@ -615,7 +615,7 @@ function changeLevel(level: number, powerup: number) {
             . . 4 4 f 4 4 5 5 4 4 f 4 4 . .
             . . . . . f f f f f f . . . . .
             . . . . . f f . . f f . . . . .
-        `, SpriteKind.Player), 9, 992)
+        `, SpriteKind.Player), 64, 992)
         playerAnimSetup(1)
         numCollectableAmount = 3
         sushi1 = sprites.create(img`
@@ -734,8 +734,8 @@ function changeLevel(level: number, powerup: number) {
             . 6 . . . . . . . . . 3 . . . . . . . 6 . . . .
             . . . . . . . . . . . . . . 6 . . . . . . . . .
             3 3 3 3 . . . . 3 . . . . . . . . . . . . . . .
-            f . . . . . . . . . . . . . . . . . . . . . . .
-            f . . . . . . . . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . . . . . . . . . .
             4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
         `, TileScale.Sixteen)
         scene.placeOnRandomTile(sushi0, 8)
