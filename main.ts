@@ -18,9 +18,16 @@ function MoveitMovit(targetSprite: Sprite, dir: number) {
     currentenemVEL = currentenemVEL * dir
     targetSprite.setVelocity(currentenemVEL, 0)
 }
-function enemySpawn(enem: Sprite) {
-    Grandmother = enem
-    scene.placeOnRandomTile(enem, 5)
+function enemySpawn(enem0: Sprite, enem1: Sprite) {
+    Grandmother = enem0
+    Grandmother2 = enem1
+    scene.placeOnRandomTile(enem0, 5)
+    scene.placeOnRandomTile(enem1, 5)
+    Grandmother.setFlag(SpriteFlag.BounceOnWall, true)
+    Grandmother2.setFlag(SpriteFlag.BounceOnWall, true)
+    Grandmother.ay = gravity
+    Grandmother2.ay = gravity
+
 }
 /**
  * *** CHANGELOG v7.18.19 (CURRENT) *******************************************
@@ -127,6 +134,8 @@ function GrannyAnimSetup() {
     `)
     animation.attachAnimation(Grandmother, GranLWalk)
     animation.attachAnimation(Grandmother, GranRWalk)
+    animation.attachAnimation(Grandmother2, GranLWalk)
+    animation.attachAnimation(Grandmother2, GranRWalk)
 }
 // Trying to Set Collectible into HUD
 //
@@ -981,12 +990,12 @@ function changeLevel(level: number, powerup: number) {
         playerAnimSetup(1)
         scene.setTileMap(img`
             . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5 . . . . . . . . . . . . . . . . . . . . . . . . 7 . . . .
+            . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7 . . . .
             . . . . . . . . . . . . . . . . . . . . . . . . . 5 . . 7 . . . . 7 7 7 7 . . . . . . . . . . . . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . . . . . . . . . . . 7 . . . . . . . . . . . . . . . . . . . . . . 5 . . . . . . . . . . 7 . . . .
+            . . . . . . . . . . . . . . . . . . . . . . . . . 7 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7 . . . .
             . . . . . . . . 7 7 7 7 . . . . . . . . . . 7 . . . . . . . . . . . . . . . . . . . . . . . . . 7 7 7 7 . . . . . . . . . . . .
             . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7 . . . .
-            . . . . 7 7 7 7 7 7 7 7 7 7 . 5 . . . . . . . . . . . 5 . . . . . . . . . 5 . . . . . . . . . . . . . . . . . . . . . . . . . .
+            . . . . 7 7 7 7 7 7 7 7 7 7 . 5 . . . . . . . . . . . 5 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
             7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7
         `, TileScale.Sixteen)
         scene.setBackgroundImage(img`
@@ -1131,6 +1140,23 @@ function changeLevel(level: number, powerup: number) {
         `, true)
         info.setLife(3)
         enemySpawn(sprites.create(img`
+            . . . . . . . . . . . . . . . .
+            . . . . . . . 1 1 1 1 1 1 1 1 .
+            . . . . . . . 1 1 1 1 1 1 d 1 .
+            . . . . . . . . b f b b b 1 1 1
+            . . . . . . . . d d d d d 1 1 .
+            . . . . . . . . 2 d d d d d . .
+            . . . . . . . . . . . d d . . .
+            . . . . . . . . . . 9 5 9 9 . .
+            . . . . . . . . . d d 9 9 9 5 .
+            1 1 1 1 1 1 1 1 1 . . 9 5 9 9 .
+            1 . 1 . . 1 . 1 . . 9 9 9 9 5 9
+            1 1 1 1 1 1 1 1 . . 9 5 9 9 6 9
+            1 . 1 . . 1 . 1 . . 6 6 9 5 6 9
+            1 1 1 1 1 1 1 1 . . 5 6 6 6 5 9
+            . 1 1 . . . 1 1 . . 6 6 5 6 6 .
+            1 1 . . . . . 1 1 . . 3 . . 3 .
+        `, SpriteKind.Enemy), sprites.create(img`
             . . . . . . . . . . . . . . . .
             . . . . . . . 1 1 1 1 1 1 1 1 .
             . . . . . . . 1 1 1 1 1 1 d 1 .
@@ -1460,13 +1486,13 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
         TestShot.x += -8
     }
     TestShot.y += -5
-    TestShot.ay = 500
+    TestShot.ay = gravity
 })
 // Sets up the player spawnlocation and physics
 function playerSetup(playerIcon: Sprite, spawnLocX: number, spawnLocY: number) {
     playerSprite = playerIcon
     playerSprite.setPosition(spawnLocX, spawnLocY)
-    playerSprite.ay = 500
+    playerSprite.ay = gravity
     scene.cameraFollowSprite(playerSprite)
 }
 // Creates an intro screen for a stage as needed
@@ -1527,7 +1553,9 @@ let collectList: Sprite[] = []
 let GranRWalk: animation.Animation = null
 let GranLWalk: animation.Animation = null
 let Grandmother: Sprite = null
-let currentenemVEL = 0
+let Grandmother2: Sprite = null
+let gravity = 500
+let currentenemVEL = 1
 let backgroundList: Image[] = []
 let currentLevel = 0
 let TestMode = false
@@ -1545,20 +1573,35 @@ if (TestMode) {
     game.showLongText("Press A to jump when on the   ground, or to walljump off a wall. ", DialogLayout.Center)
     changeLevel(currentLevel, 0)
 }
-game.onUpdateInterval(4000, function () {
+//Grandmothers movements based on Velocity
+game.onUpdateInterval(3000, function () {
     if (levelStarted) {
-        if (currentLevel == 3) {
+        if (currentLevel > 2) {
             MoveitMovit(Grandmother, -1)
+            MoveitMovit(Grandmother2, -1)
         }
     }
 })
 game.onUpdate(function () {
     if (levelStarted) {
-        if (currentLevel == 3) {
+        if (currentLevel > 2) {
+
+
+            console.logValue("Grandmother Vx", Grandmother.vx)
+            console.logValue("Grandmother 2 Vx", Grandmother2.vx)
+            console.logValue("Level", currentLevel)
+            console.logValue("currentenemVel", currentenemVEL)
+
             if (Grandmother.vx > 0) {
                 animation.setAction(Grandmother, ActionKind.RWalk)
             } else {
                 animation.setAction(Grandmother, ActionKind.LWalking)
+            }
+
+            if (Grandmother2.vx > 0) {
+                animation.setAction(Grandmother2, ActionKind.RWalk)
+            } else {
+                animation.setAction(Grandmother2, ActionKind.LWalking)
             }
         }
     }
