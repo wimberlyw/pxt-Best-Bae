@@ -20,7 +20,22 @@ function MoveitMovit(targetSprite: Sprite, dir: number) {
 }
 function enemySpawn(enem: Sprite) {
     Grandmother = enem
-    scene.placeOnRandomTile(enem, 5)
+    let enemyTileList = scene.getTilesByType(5)
+    for (let i = 0; i < enemyTileList.length; i++) {
+
+        enemyTileList[i].place(enem)
+        // YOU WERE WORKING ON THIS!!!!!
+        // YOU WERE WORKING ON THIS!!!!!
+        // YOU WERE WORKING ON THIS!!!!!
+        // YOU WERE WORKING ON THIS!!!!!
+        // YOU WERE WORKING ON THIS!!!!!
+        // YOU WERE WORKING ON THIS!!!!!
+
+    }
+
+
+
+    //scene.placeOnRandomTile(enem, 5)
 }
 /**
  * *** CHANGELOG v7.18.19 (CURRENT) *******************************************
@@ -141,7 +156,7 @@ function drawInHUD(HUDPOS: number) {
     }
 }
 function initializeVariables() {
-    TestMode = true
+    TestMode = false
     playerFacingRight = true
     levelStarted = false
     numPlayerAccel = 500
@@ -1524,6 +1539,7 @@ let levelStarted = false
 let playerFacingRight = false
 let playerSprite: Sprite = null
 let collectList: Sprite[] = []
+//let enemyTileList[] = []
 let GranRWalk: animation.Animation = null
 let GranLWalk: animation.Animation = null
 let Grandmother: Sprite = null
